@@ -1,0 +1,12 @@
+[project]
+name = "airflow"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "apache-airflow>=3.2.2",
+    "pandas>=3.0.3",
+    "scikit-learn>=1.8.0",
+    "sqlalchemy>=2.0.50",
+]
