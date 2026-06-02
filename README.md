@@ -4,50 +4,54 @@ Este projeto implementa uma pipeline de machine learning usando Apache Airflow 3
 
 ## Como rodar o projeto
 
-1. Sincronize e instale as dependências usando o uv:
+Primeiro, sincronize e instale as dependências:
 
 ```bash
 uv sync
 ```
 
-2. Configure as variáveis de ambiente:
+Agora, escolha uma das duas opções de execução abaixo:
 
+### Opção 1: Execução Direta (CLI)
+
+Para rodar a DAG diretamente pelo terminal, sem a necessidade de iniciar o servidor web do Airflow ou criar um usuário:
+
+1. Configure as variáveis de ambiente no terminal:
 ```bash
 export AIRFLOW_HOME=$(pwd)
 export AIRFLOW__CORE__DAGS_FOLDER=$(pwd)/dags
 ```
 
-3. Inicialize o banco de dados do Airflow:
-
-```bash
-uv run airflow db migrate
-```
-
-### Execução Direta (CLI)
-
-Para rodar a DAG diretamente pelo terminal, sem a necessidade de iniciar o servidor web do Airflow ou criar um usuário:
-
+2. Execute o teste da DAG:
 ```bash
 uv run airflow dags test ml_pipeline
 ```
 
 Ao final, os resultados serão salvos localmente na pasta `models/` e os metadados serão inseridos no banco SQLite `models_registry.db`.
 
-### Execução via Interface Web (Browser)
+### Opção 2: Execução via Interface Web (Browser)
 
-Para acompanhar a execução pela interface do Airflow, é necessário criar um usuário de acesso:
+Para acompanhar a execução pela interface do Airflow no navegador:
 
-1. Rode o script de configuração interativo (já existente na pasta) para gerar o acesso:
+1. Configure as variáveis de ambiente no terminal:
+```bash
+export AIRFLOW_HOME=$(pwd)
+export AIRFLOW__CORE__DAGS_FOLDER=$(pwd)/dags
+```
+
+2. Crie o usuário de acesso rodando o script de configuração:
 ```bash
 uv run python configurar_usuario.py
 ```
 
-2. Inicie os serviços do Airflow:
+3. Inicie os serviços do Airflow:
 ```bash
 uv run airflow standalone
 ```
 
-3. Acesse `http://localhost:8080` no navegador, faça o login e execute a DAG `ml_pipeline`.
+4. Acesse `http://localhost:8080` no navegador, faça o login e execute a DAG `ml_pipeline` clicando no botão "Trigger" (Play).
+
+*Atenção:* Certifique-se de rodar os comandos acima na mesma aba do terminal. Se você abrir um novo terminal para rodar o `airflow standalone` sem exportar as variáveis de ambiente novamente (Passo 1), o Airflow iniciará na pasta padrão do sistema (`~/airflow`), fazendo com que o login falhe.
 
 ## O que este projeto realmente faz?
 
